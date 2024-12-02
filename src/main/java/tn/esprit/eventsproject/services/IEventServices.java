@@ -13,7 +13,7 @@ public interface IEventServices {
     public Participant addParticipant(Participant participant);
 
     // Méthode pour ajouter un participant à un événement
-    public Event addAffectEvenParticipant(Event event, int idParticipant);
+    public Event addAffectEvenParticipant(Event event, Long idParticipant); // Changez 'int' en 'Long'
 
     // Méthode pour ajouter un participant à un événement, peut être utilisée pour plusieurs participants
     public Event addAffectEvenParticipant(Event event);

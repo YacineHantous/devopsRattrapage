@@ -33,7 +33,7 @@ public class EventServicesImpl implements IEventServices {
     }
 
     @Override
-    public Event addAffectEvenParticipant(Event event, Long idParticipant) { 
+    public Event addAffectEvenParticipant(Event event, Long idParticipant) { // Utilisation de Long
         Participant participant = participantRepository.findById(idParticipant).orElse(null);
         if (participant != null) {
             if (participant.getEvents() == null) {
@@ -48,7 +48,7 @@ public class EventServicesImpl implements IEventServices {
     }
 
     @Override
-    public Event addAffectEvenParticipant(Event event) {
+    public Event addAffectEvenParticipant(Event event) { // Méthode pour ajouter plusieurs participants
         Set<Participant> participants = event.getParticipants();
         for (Participant aParticipant : participants) {
             Participant participant = participantRepository.findById(aParticipant.getIdPart()).orElse(null);
@@ -119,15 +119,12 @@ public class EventServicesImpl implements IEventServices {
         }
     }
 
-    // Méthode pour créer un événement
     @Override
     public Event createEvent(Event event) {
         return eventRepository.save(event);
     }
 
-    // Si la méthode getLogisticsByEventId n'est pas dans l'interface, supprimez l'annotation @Override pour éviter l'erreur
-    // Exemple de méthode additionnelle si nécessaire
-    public List<Logistics> getLogisticsByEventId(Long eventId) { // Changé int en Long ici
+    public List<Logistics> getLogisticsByEventId(Long eventId) {
         Event event = eventRepository.findById(eventId).orElse(null);
         return event != null ? new ArrayList<>(event.getLogistics()) : null;
     }
