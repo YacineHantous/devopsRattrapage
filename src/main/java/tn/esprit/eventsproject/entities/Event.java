@@ -1,22 +1,29 @@
 package tn.esprit.eventsproject.entities;
 
-import javax.persistence.*;
+import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
 
-@Entity
-public class Participant {
+public class Event implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String name;
+    private Date date;
+    private List<Participant> participants; // Utilisation de la classe Participant
 
-    @ManyToOne
-    @JoinColumn(name = "event_id")  // Clé étrangère pour l'événement
-    private Event event; // L'événement auquel le participant est lié
+    // Constructeurs
+    public Event() {
+    }
+
+    public Event(Long id, String name, Date date, List<Participant> participants) {
+        this.id = id;
+        this.name = name;
+        this.date = date;
+        this.participants = participants;
+    }
 
     // Getters et Setters
-
     public Long getId() {
         return id;
     }
@@ -33,11 +40,29 @@ public class Participant {
         this.name = name;
     }
 
-    public Event getEvent() {
-        return event;
+    public Date getDate() {
+        return date;
     }
 
-    public void setEvent(Event event) {
-        this.event = event;
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public List<Participant> getParticipants() {
+        return participants;
+    }
+
+    public void setParticipants(List<Participant> participants) {
+        this.participants = participants;
+    }
+
+    @Override
+    public String toString() {
+        return "Event{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", date=" + date +
+                ", participants=" + participants +
+                '}';
     }
 }
