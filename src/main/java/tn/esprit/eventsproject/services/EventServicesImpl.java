@@ -32,6 +32,7 @@ public class EventServicesImpl implements IEventServices {
         return participantRepository.save(participant);
     }
 
+    // Changement de 'Long idParticipant' dans la signature de la méthode
     @Override
     public Event addAffectEvenParticipant(Event event, Long idParticipant) { // Utilisation de Long
         Participant participant = participantRepository.findById(idParticipant).orElse(null);
@@ -124,7 +125,7 @@ public class EventServicesImpl implements IEventServices {
         return eventRepository.save(event);
     }
 
-    public List<Logistics> getLogisticsByEventId(Long eventId) {
+    public List<Logistics> getLogisticsByEventId(Long eventId) { // eventId est de type Long
         Event event = eventRepository.findById(eventId).orElse(null);
         return event != null ? new ArrayList<>(event.getLogistics()) : null;
     }

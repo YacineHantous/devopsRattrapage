@@ -20,20 +20,25 @@ public class EventRestController {
     public Participant addParticipant(@RequestBody Participant participant){
         return eventServices.addParticipant(participant);
     }
+
+    // Changement de 'int idPart' à 'Long idPart'
     @PostMapping("/addEvent/{id}")
-    public Event addEventPart(@RequestBody Event event, @PathVariable("id") int idPart){
+    public Event addEventPart(@RequestBody Event event, @PathVariable("id") Long idPart){  // idPart devient Long
         return eventServices.addAffectEvenParticipant(event, idPart);
     }
+
     @PostMapping("/addEvent")
     public Event addEvent(@RequestBody Event event){
         return eventServices.addAffectEvenParticipant(event);
     }
+
     @PutMapping("/addAffectLog/{description}")
-    public Logistics addAffectLog(@RequestBody Logistics logistics,@PathVariable("description") String descriptionEvent){
-        return eventServices.addAffectLog(logistics,descriptionEvent);
+    public Logistics addAffectLog(@RequestBody Logistics logistics, @PathVariable("description") String descriptionEvent){
+        return eventServices.addAffectLog(logistics, descriptionEvent);
     }
+
     @GetMapping("/getLogs/{d1}/{d2}")
-    public List<Logistics> getLogistiquesDates (@PathVariable("d1") LocalDate date_debut, @PathVariable("d2") LocalDate date_fin){
-        return eventServices.getLogisticsDates(date_debut,date_fin);
+    public List<Logistics> getLogistiquesDates(@PathVariable("d1") LocalDate dateDebut, @PathVariable("d2") LocalDate dateFin){
+        return eventServices.getLogisticsDates(dateDebut, dateFin);
     }
 }
