@@ -33,7 +33,7 @@ public class EventServicesImpl implements IEventServices {
     }
 
     @Override
-    public Event addAffectEvenParticipant(Event event, int idParticipant) {
+    public Event addAffectEvenParticipant(Event event, Long idParticipant) { // Changé int en Long ici
         Participant participant = participantRepository.findById(idParticipant).orElse(null);
         if (participant != null) {
             if (participant.getEvents() == null) {
@@ -128,7 +128,7 @@ public class EventServicesImpl implements IEventServices {
 
     // Si la méthode getLogisticsByEventId n'est pas dans l'interface, supprimez l'annotation @Override pour éviter l'erreur
     // Exemple de méthode additionnelle si nécessaire
-    public List<Logistics> getLogisticsByEventId(Long eventId) {
+    public List<Logistics> getLogisticsByEventId(Long eventId) { // Changé int en Long ici
         Event event = eventRepository.findById(eventId).orElse(null);
         return event != null ? new ArrayList<>(event.getLogistics()) : null;
     }
