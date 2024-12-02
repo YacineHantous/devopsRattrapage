@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.eventsproject.entities.Event;
 import tn.esprit.eventsproject.entities.Participant;
-import tn.esprit.eventsproject.services.EventServices;
+import tn.esprit.eventsproject.services.EventServiceImpl;  // Changer le nom de l'import ici
 
 import java.util.List;
 
@@ -13,31 +13,29 @@ import java.util.List;
 public class EventRestController {
 
     @Autowired
-    private EventServices eventServices;
+    private EventServiceImpl eventServiceImpl;  // Remplacez EventServices par EventServiceImpl
 
     @GetMapping("/{eventId}")
     public Event getEventById(@PathVariable Long eventId) {
-        return eventServices.findEventById(eventId); // Récupère l'événement par ID
+        return eventServiceImpl.findEventById(eventId);  // Utiliser eventServiceImpl
     }
 
     @GetMapping("/{eventId}/participants")
     public List<Participant> getParticipants(@PathVariable Long eventId) {
-        // Utilise le service pour obtenir les participants associés à l'événement
-        return eventServices.getParticipants(eventId); // Retourne la liste des participants de l'événement
+        return eventServiceImpl.getParticipants(eventId);  // Utiliser eventServiceImpl
     }
 
     @PostMapping("/{eventId}/participants/{participantId}")
     public Event addParticipantToEvent(@PathVariable Long eventId, @PathVariable Long participantId) {
-        // Ajoute un participant à un événement spécifique
-        return eventServices.addAffectEvenParticipant(eventId, participantId); // Affecte un participant à l'événement
+        return eventServiceImpl.addAffectEvenParticipant(eventId, participantId);  // Utiliser eventServiceImpl
     }
 
     @PostMapping("/{eventId}/participants")
     public Event addParticipantsToEvent(@PathVariable Long eventId, @RequestBody List<Participant> participants) {
-        Event event = eventServices.findEventById(eventId);
+        Event event = eventServiceImpl.findEventById(eventId);  // Utiliser eventServiceImpl
         for (Participant participant : participants) {
             event.getParticipants().add(participant);
         }
-        return eventServices.updateEvent(eventId, event); // Met à jour l'événement avec les nouveaux participants
+        return eventServiceImpl.updateEvent(eventId, event);  // Utiliser eventServiceImpl
     }
 }
