@@ -5,8 +5,8 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.6</version> <!-- Vérifiez si vous voulez la dernière version stable de Spring Boot -->
-        <relativePath/>
+        <version>2.7.10</version> <!-- Dernière version stable de Spring Boot -->
+        <relativePath/> <!-- recherche automatique -->
     </parent>
     <groupId>tn.esprit</groupId>
     <artifactId>eventsProject</artifactId>
@@ -14,44 +14,51 @@
     <name>eventsProject</name>
     <description>eventsProject</description>
     <properties>
-        <java.version>1.8</java.version>
+        <java.version>1.8</java.version> <!-- Java version 8, à mettre à jour si nécessaire -->
     </properties>
     <dependencies>
-        <!-- Spring Boot dependencies -->
+        <!-- Dépendance Spring Boot pour JPA -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
+        <!-- Validation API (Jakarta) -->
         <dependency>
             <groupId>jakarta.validation</groupId>
             <artifactId>jakarta.validation-api</artifactId>
             <version>2.0.2</version>
         </dependency>
+        <!-- Hibernate Validator -->
         <dependency>
             <groupId>org.hibernate.validator</groupId>
             <artifactId>hibernate-validator</artifactId>
             <version>6.2.0.Final</version>
         </dependency>
+        <!-- Dépendance Spring Boot pour Web -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+        <!-- Spring Boot DevTools pour un développement plus rapide -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
             <scope>runtime</scope>
             <optional>true</optional>
         </dependency>
+        <!-- Connecteur MySQL -->
         <dependency>
-            <groupId>com.mysql</groupId>
+            <groupId>mysql</groupId>
             <artifactId>mysql-connector-j</artifactId>
             <scope>runtime</scope>
         </dependency>
+        <!-- Lombok pour simplifier le code -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
+        <!-- Dépendance pour les tests avec Spring Boot -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -63,6 +70,7 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <!-- Mockito pour les tests unitaires -->
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
@@ -78,16 +86,19 @@
     </dependencies>
     <build>
         <plugins>
+            <!-- Plugin Maven Clean pour nettoyer les fichiers générés -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-clean-plugin</artifactId>
                 <version>3.2.0</version> <!-- Dernière version stable -->
             </plugin>
+            <!-- Plugin Spring Boot pour la gestion de l'application -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>2.7.6</version>
+                <version>2.7.10</version> <!-- Mise à jour vers la version stable -->
             </plugin>
+            <!-- Plugin Surefire pour l'exécution des tests -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
