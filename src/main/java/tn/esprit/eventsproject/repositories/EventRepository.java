@@ -7,7 +7,7 @@ import tn.esprit.eventsproject.entities.Tache;
 import java.time.LocalDate;
 import java.util.List;
 
-public interface EventRepository extends JpaRepository<Event, Long> { // Changer Integer par Long
+public interface EventRepository extends JpaRepository<Event, Long> {
 
     Event findByDescription(String description);
     List<Event> findByDateDebutBetween(LocalDate date1, LocalDate date2);

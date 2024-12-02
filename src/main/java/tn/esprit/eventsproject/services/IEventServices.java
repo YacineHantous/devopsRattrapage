@@ -26,4 +26,10 @@ public interface IEventServices {
     List<Logistics> getLogisticsByEventId(Long eventId);
 
     Event findEventById(Long id);
+
+    List<Event> getAllEvents();
+
+    Event updateEvent(Long eventId, Event event);
+
+    void deleteEvent(Long eventId);
 }

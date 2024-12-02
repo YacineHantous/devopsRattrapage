@@ -1,58 +1,59 @@
 package tn.esprit.eventsproject.entities;
 
-import lombok.*;
-import lombok.experimental.FieldDefaults;
-
 import javax.persistence.*;
-import javax.validation.constraints.FutureOrPresent;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Positive;
-import java.io.Serializable;
-import java.time.LocalDate;
-import java.util.Set;
+import java.time.LocalDateTime;
 
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
-public class Event implements Serializable {
+public class Event {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long idEvent;  // Changer le type de 'int' à 'Long'
+    private Long id;
 
-    @NotBlank(message = "La description ne doit pas être vide")
-    String description;
+    private String name;
+    private String description;
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
 
-    @NotBlank(message = "Le nom de l'événement ne doit pas être vide")
-    String nomEvent;
+    // Getters et Setters
 
-    @FutureOrPresent(message = "La date de début doit être aujourd'hui ou dans le futur")
-    LocalDate dateDebut;
-
-    @FutureOrPresent(message = "La date de fin doit être aujourd'hui ou dans le futur")
-    LocalDate dateFin;
-
-    @Positive(message = "Le coût doit être positif")
-    float cout;
-
-    @ManyToMany(mappedBy = "events")
-    Set<Participant> participants;
-
-    @OneToMany(fetch = FetchType.EAGER)
-    Set<Logistics> logistics;
-
-    // Méthode personnalisée pour calculer le coût total
-    public float calculateTotalCost() {
-        return logistics.stream()
-                        .map(Logistics::getCost)
-                        .reduce(cout, Float::sum); // Somme des coûts de la logistique + coût de l'événement
+    public Long getId() {
+        return id;
     }
 
-    // Méthode pour vérifier si l'événement est valide
-    public boolean isValid() {
-        return dateDebut.isBefore(dateFin);
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public LocalDateTime getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(LocalDateTime startDate) {
+        this.startDate = startDate;
+    }
+
+    public LocalDateTime getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(LocalDateTime endDate) {
+        this.endDate = endDate;
     }
 }
