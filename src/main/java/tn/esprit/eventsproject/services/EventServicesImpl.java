@@ -125,4 +125,11 @@ public class EventServicesImpl implements IEventServices {
     public Event createEvent(Event event) {
         return eventRepository.save(event);
     }
+
+    // Si la méthode getLogisticsByEventId n'est pas dans l'interface, supprimez l'annotation @Override pour éviter l'erreur
+    // Exemple de méthode additionnelle si nécessaire
+    public List<Logistics> getLogisticsByEventId(Long eventId) {
+        Event event = eventRepository.findById(eventId).orElse(null);
+        return event != null ? new ArrayList<>(event.getLogistics()) : null;
+    }
 }
