@@ -6,6 +6,9 @@ import org.mockito.Mockito;
 import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
+import tn.esprit.eventsproject.controllers.EventRestController;
+import tn.esprit.eventsproject.entities.Event;
+import tn.esprit.eventsproject.services.EventServicesImpl;
 
 public class EventServicesImplTest {
 
