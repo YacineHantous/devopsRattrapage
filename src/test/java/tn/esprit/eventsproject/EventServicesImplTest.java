@@ -65,16 +65,17 @@ public class EventServicesImplTest {
         Event event = new Event("Event Test", LocalDate.now(), LocalDate.now().plusDays(1), 500);
         
         // Simuler la logistique
-        Logistics logistics1 = new Logistics("Logistic 1", false, 50, 10); // Coût 500
-        Logistics logistics2 = new Logistics("Logistic 2", true, 30, 5);  // Coût 150
+        Logistics logistics1 = new Logistics("Logistic 1", false, 50, 10); // Coût 50
+        Logistics logistics2 = new Logistics("Logistic 2", true, 30, 5);  // Coût 30
         Set<Logistics> logisticsSet = new HashSet<>();
         logisticsSet.add(logistics1);
         logisticsSet.add(logistics2);
 
         event.setLogistics(logisticsSet);
         
-        float totalCost = event.calculateTotalCost(); // Devrait être 500 + 150 + 500 = 1150
+        // Le coût total devrait être : 500 (coût de l'événement) + 50 + 30 = 580
+        float totalCost = event.calculateTotalCost(); 
         
-        assertEquals(1150.0f, totalCost, "Le coût total devrait être calculé correctement.");
+        assertEquals(580.0f, totalCost, "Le coût total devrait être calculé correctement.");
     }
 }

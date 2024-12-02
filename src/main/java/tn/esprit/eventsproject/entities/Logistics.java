@@ -22,12 +22,17 @@ public class Logistics implements Serializable {
     int idLog;
 
     String description;
-    boolean reserve;
-    float prixUnit;  // Prix unitaire
-    int quantite;    // Quantité
+    boolean reserve;  // Indique si la logistique est réservée
+    float prixUnit;   // Prix unitaire de la logistique
+    int quantite;     // Quantité de logistique
 
     // Méthode pour calculer le coût total de la logistique
     public float getCost() {
         return prixUnit * quantite; // Le coût total est le prix unitaire multiplié par la quantité
+    }
+
+    // Méthode pour vérifier si la logistique est réservée
+    public boolean isReserve() {
+        return reserve;
     }
 }
