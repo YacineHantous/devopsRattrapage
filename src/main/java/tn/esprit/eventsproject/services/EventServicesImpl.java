@@ -3,7 +3,6 @@ package tn.esprit.eventsproject.services;
 import tn.esprit.eventsproject.entities.Event;
 import tn.esprit.eventsproject.entities.Logistics;
 import tn.esprit.eventsproject.entities.Participant;
-import tn.esprit.eventsproject.exceptions.ResourceNotFoundException;
 import tn.esprit.eventsproject.repositories.EventRepository;
 import tn.esprit.eventsproject.repositories.LogisticsRepository;
 import tn.esprit.eventsproject.repositories.ParticipantRepository;
@@ -35,7 +34,8 @@ public class EventServicesImpl implements IEventServices {
     public Event addAffectEvenParticipant(Event event, Long idParticipant) {
         Optional<Participant> participant = participantRepository.findById(idParticipant);
         if (participant.isEmpty()) {
-            throw new ResourceNotFoundException("Participant not found with id: " + idParticipant);
+            // Remplacez l'exception par une gestion d'erreur simple
+            throw new IllegalArgumentException("Participant not found with id: " + idParticipant);
         }
         event.getParticipants().add(participant.get());
         return eventRepository.save(event);
@@ -50,7 +50,8 @@ public class EventServicesImpl implements IEventServices {
     public Logistics addAffectLog(Logistics logistics, Long eventId) {
         Optional<Event> event = eventRepository.findById(eventId);
         if (event.isEmpty()) {
-            throw new ResourceNotFoundException("Event not found with id: " + eventId);
+            // Remplacez l'exception par une gestion d'erreur simple
+            throw new IllegalArgumentException("Event not found with id: " + eventId);
         }
         logistics.setEvent(event.get());
         return logisticsRepository.save(logistics);
@@ -78,8 +79,9 @@ public class EventServicesImpl implements IEventServices {
 
     @Override
     public Event findEventById(Long id) {
+        // Remplacez l'exception par une gestion d'erreur simple
         return eventRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Event not found with id: " + id));
+                .orElseThrow(() -> new IllegalArgumentException("Event not found with id: " + id));
     }
 
     @Override
@@ -91,7 +93,8 @@ public class EventServicesImpl implements IEventServices {
     public Event updateEvent(Long eventId, Event event) {
         Optional<Event> existingEvent = eventRepository.findById(eventId);
         if (existingEvent.isEmpty()) {
-            throw new ResourceNotFoundException("Event not found with id: " + eventId);
+            // Remplacez l'exception par une gestion d'erreur simple
+            throw new IllegalArgumentException("Event not found with id: " + eventId);
         }
         event.setId(eventId);
         return eventRepository.save(event);
@@ -101,7 +104,8 @@ public class EventServicesImpl implements IEventServices {
     public void deleteEvent(Long eventId) {
         Optional<Event> event = eventRepository.findById(eventId);
         if (event.isEmpty()) {
-            throw new ResourceNotFoundException("Event not found with id: " + eventId);
+            // Remplacez l'exception par une gestion d'erreur simple
+            throw new IllegalArgumentException("Event not found with id: " + eventId);
         }
         eventRepository.deleteById(eventId);
     }
