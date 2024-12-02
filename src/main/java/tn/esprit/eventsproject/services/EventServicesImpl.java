@@ -33,7 +33,7 @@ public class EventServicesImpl implements IEventServices {
     }
 
     @Override
-    public Event addAffectEvenParticipant(Event event, Long idParticipant) { // Changé int en Long ici
+    public Event addAffectEvenParticipant(Event event, Long idParticipant) { 
         Participant participant = participantRepository.findById(idParticipant).orElse(null);
         if (participant != null) {
             if (participant.getEvents() == null) {
@@ -103,7 +103,6 @@ public class EventServicesImpl implements IEventServices {
     @Override
     public void calculCout() {
         List<Event> events = eventRepository.findByParticipants_NomAndParticipants_PrenomAndParticipants_Tache("Tounsi", "Ahmed", Tache.ORGANISATEUR);
-        // eventRepository.findAll(); // This is commented out if you need to get all events
         float somme;
         for (Event event : events) {
             somme = 0f;
