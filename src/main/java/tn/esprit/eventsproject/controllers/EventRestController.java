@@ -13,7 +13,7 @@ import java.util.List;
 public class EventRestController {
 
     @Autowired
-    private EventServicseImpl eventServicesImpl;  // Remplacez EventServices par EventServicesImpl
+    private EventServicesImpl eventServicesImpl;  // Remplacez EventServices par EventServicesImpl
 
     @GetMapping("/{eventId}")
     public Event getEventById(@PathVariable Long eventId) {
