@@ -9,6 +9,8 @@ import static org.mockito.Mockito.*;
 import tn.esprit.eventsproject.controllers.EventRestController;
 import tn.esprit.eventsproject.entities.Event;
 import tn.esprit.eventsproject.services.EventServicesImpl;
+import tn.esprit.eventsproject.repositories.EventRepository;
+
 
 public class EventServicesImplTest {
 
