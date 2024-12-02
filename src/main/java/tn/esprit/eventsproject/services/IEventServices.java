@@ -9,27 +9,21 @@ import java.util.List;
 
 public interface IEventServices {
 
-    // Méthode pour ajouter un participant
-    public Participant addParticipant(Participant participant);
+    Participant addParticipant(Participant participant);
 
-    // Méthode pour ajouter un participant à un événement
-    public Event addAffectEvenParticipant(Event event, Long idParticipant); // Changez 'int' en 'Long'
+    Event addAffectEvenParticipant(Event event, Long idParticipant);
 
-    // Méthode pour ajouter un participant à un événement, peut être utilisée pour plusieurs participants
-    public Event addAffectEvenParticipant(Event event);
+    Event addAffectEvenParticipant(Event event);
 
-    // Méthode pour affecter des logistiques à un événement
-    public Logistics addAffectLog(Logistics logistics, String descriptionEvent);
+    Logistics addAffectLog(Logistics logistics, Long eventId);
 
-    // Méthode pour obtenir les logistiques entre deux dates
-    public List<Logistics> getLogisticsDates(LocalDate date_debut, LocalDate date_fin);
+    List<Logistics> getLogisticsDates(LocalDate dateDebut, LocalDate dateFin);
 
-    // Méthode pour calculer les coûts des événements
-    public void calculCout();
+    void calculCout();
 
-    // Méthode pour créer un événement
-    public Event createEvent(Event event);
+    Event createEvent(Event event);
 
-    // Méthode pour récupérer les logistiques par ID d'événement
-    public List<Logistics> getLogisticsByEventId(Long eventId);
+    List<Logistics> getLogisticsByEventId(Long eventId);
+
+    Event findEventById(Long id);
 }

@@ -4,7 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.eventsproject.entities.Event;
-import tn.esprit.eventsproject.services.EventServices;
+import tn.esprit.eventsproject.entities.Logistics;
+import tn.esprit.eventsproject.services.IEventServices;
 
 import java.util.List;
 
@@ -13,7 +14,7 @@ import java.util.List;
 public class EventRestController {
 
     @Autowired
-    private EventServices eventServices;
+    private IEventServices eventServices;
 
     // Endpoint pour récupérer un événement par son ID
     @GetMapping("/{id}")
@@ -56,7 +57,17 @@ public class EventRestController {
             @PathVariable Long eventId,
             @PathVariable Long participantId
     ) {
-        Event updatedEvent = eventServices.addParticipantToEvent(eventId, participantId);
+        Event updatedEvent = eventServices.addAffectEvenParticipant(eventId, participantId);
         return ResponseEntity.ok(updatedEvent);
+    }
+
+    // Endpoint pour ajouter une logistique à un événement
+    @PostMapping("/{eventId}/logistics")
+    public ResponseEntity<Logistics> addLogisticsToEvent(
+            @PathVariable Long eventId, 
+            @RequestBody Logistics logistics
+    ) {
+        Logistics createdLogistics = eventServices.addAffectLog(logistics, eventId);
+        return ResponseEntity.status(201).body(createdLogistics);
     }
 }
