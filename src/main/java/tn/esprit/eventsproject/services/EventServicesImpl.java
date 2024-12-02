@@ -34,7 +34,6 @@ public class EventServicesImpl implements IEventServices {
     public Event addAffectEvenParticipant(Event event, Long idParticipant) {
         Optional<Participant> participant = participantRepository.findById(idParticipant);
         if (participant.isEmpty()) {
-            // Remplacez l'exception par une gestion d'erreur simple
             throw new IllegalArgumentException("Participant not found with id: " + idParticipant);
         }
         event.getParticipants().add(participant.get());
@@ -50,7 +49,6 @@ public class EventServicesImpl implements IEventServices {
     public Logistics addAffectLog(Logistics logistics, Long eventId) {
         Optional<Event> event = eventRepository.findById(eventId);
         if (event.isEmpty()) {
-            // Remplacez l'exception par une gestion d'erreur simple
             throw new IllegalArgumentException("Event not found with id: " + eventId);
         }
         logistics.setEvent(event.get());
@@ -79,7 +77,6 @@ public class EventServicesImpl implements IEventServices {
 
     @Override
     public Event findEventById(Long id) {
-        // Remplacez l'exception par une gestion d'erreur simple
         return eventRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Event not found with id: " + id));
     }
@@ -93,7 +90,6 @@ public class EventServicesImpl implements IEventServices {
     public Event updateEvent(Long eventId, Event event) {
         Optional<Event> existingEvent = eventRepository.findById(eventId);
         if (existingEvent.isEmpty()) {
-            // Remplacez l'exception par une gestion d'erreur simple
             throw new IllegalArgumentException("Event not found with id: " + eventId);
         }
         event.setId(eventId);
@@ -104,9 +100,15 @@ public class EventServicesImpl implements IEventServices {
     public void deleteEvent(Long eventId) {
         Optional<Event> event = eventRepository.findById(eventId);
         if (event.isEmpty()) {
-            // Remplacez l'exception par une gestion d'erreur simple
             throw new IllegalArgumentException("Event not found with id: " + eventId);
         }
         eventRepository.deleteById(eventId);
+    }
+
+    // Méthode pour récupérer les participants d'un événement
+    @Override
+    public List<Participant> getParticipants(Long eventId) {
+        Event event = findEventById(eventId); // Récupère l'événement par son ID
+        return event.getParticipants(); // Retourne la liste des participants associés à l'événement
     }
 }

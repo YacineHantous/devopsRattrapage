@@ -1,73 +1,43 @@
 package tn.esprit.eventsproject.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.eventsproject.entities.Event;
-import tn.esprit.eventsproject.entities.Logistics;
-import tn.esprit.eventsproject.services.IEventServices;
+import tn.esprit.eventsproject.entities.Participant;
+import tn.esprit.eventsproject.services.EventServices;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/events")
+@RequestMapping("/events")
 public class EventRestController {
 
     @Autowired
-    private IEventServices eventServices;
+    private EventServices eventServices;
 
-    // Endpoint pour récupérer un événement par son ID
-    @GetMapping("/{id}")
-    public ResponseEntity<Event> getEventById(@PathVariable Long id) {
-        Event event = eventServices.findEventById(id);
-        return ResponseEntity.ok(event);
+    @GetMapping("/{eventId}")
+    public Event getEventById(@PathVariable Long eventId) {
+        return eventServices.findEventById(eventId); // Récupère l'événement par ID
     }
 
-    // Endpoint pour récupérer tous les événements
-    @GetMapping
-    public ResponseEntity<List<Event>> getAllEvents() {
-        List<Event> events = eventServices.getAllEvents();
-        return ResponseEntity.ok(events);
+    @GetMapping("/{eventId}/participants")
+    public List<Participant> getParticipants(@PathVariable Long eventId) {
+        // Utilise le service pour obtenir les participants associés à l'événement
+        return eventServices.getParticipants(eventId); // Retourne la liste des participants de l'événement
     }
 
-    // Endpoint pour créer un événement
-    @PostMapping
-    public ResponseEntity<Event> createEvent(@RequestBody Event event) {
-        Event createdEvent = eventServices.createEvent(event);
-        return ResponseEntity.status(201).body(createdEvent);
-    }
-
-    // Endpoint pour mettre à jour un événement
-    @PutMapping("/{id}")
-    public ResponseEntity<Event> updateEvent(@PathVariable Long id, @RequestBody Event updatedEvent) {
-        Event event = eventServices.updateEvent(id, updatedEvent);
-        return ResponseEntity.ok(event);
-    }
-
-    // Endpoint pour supprimer un événement
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteEvent(@PathVariable Long id) {
-        eventServices.deleteEvent(id);
-        return ResponseEntity.noContent().build();
-    }
-
-    // Endpoint pour ajouter un participant à un événement
     @PostMapping("/{eventId}/participants/{participantId}")
-    public ResponseEntity<Event> addParticipantToEvent(
-            @PathVariable Long eventId,
-            @PathVariable Long participantId
-    ) {
-        Event updatedEvent = eventServices.addAffectEvenParticipant(eventId, participantId);
-        return ResponseEntity.ok(updatedEvent);
+    public Event addParticipantToEvent(@PathVariable Long eventId, @PathVariable Long participantId) {
+        // Ajoute un participant à un événement spécifique
+        return eventServices.addAffectEvenParticipant(eventId, participantId); // Affecte un participant à l'événement
     }
 
-    // Endpoint pour ajouter une logistique à un événement
-    @PostMapping("/{eventId}/logistics")
-    public ResponseEntity<Logistics> addLogisticsToEvent(
-            @PathVariable Long eventId, 
-            @RequestBody Logistics logistics
-    ) {
-        Logistics createdLogistics = eventServices.addAffectLog(logistics, eventId);
-        return ResponseEntity.status(201).body(createdLogistics);
+    @PostMapping("/{eventId}/participants")
+    public Event addParticipantsToEvent(@PathVariable Long eventId, @RequestBody List<Participant> participants) {
+        Event event = eventServices.findEventById(eventId);
+        for (Participant participant : participants) {
+            event.getParticipants().add(participant);
+        }
+        return eventServices.updateEvent(eventId, event); // Met à jour l'événement avec les nouveaux participants
     }
 }
