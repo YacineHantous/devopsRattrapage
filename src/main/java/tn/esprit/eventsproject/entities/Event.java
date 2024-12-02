@@ -21,13 +21,13 @@ public class Event implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int idEvent;
+    Long idEvent;  // Changer le type de 'int' à 'Long'
 
     @NotBlank(message = "La description ne doit pas être vide")
     String description;
 
     @NotBlank(message = "Le nom de l'événement ne doit pas être vide")
-    String nomEvent; // Nouveau champ ajouté
+    String nomEvent;
 
     @FutureOrPresent(message = "La date de début doit être aujourd'hui ou dans le futur")
     LocalDate dateDebut;

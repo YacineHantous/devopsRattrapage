@@ -1,44 +1,62 @@
 package tn.esprit.eventsproject.controllers;
 
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.eventsproject.entities.Event;
-import tn.esprit.eventsproject.entities.Logistics;
-import tn.esprit.eventsproject.entities.Participant;
-import tn.esprit.eventsproject.services.IEventServices;
+import tn.esprit.eventsproject.services.EventServices;
 
-import java.time.LocalDate;
 import java.util.List;
 
-@RequiredArgsConstructor
-@RequestMapping("event")
 @RestController
+@RequestMapping("/api/events")
 public class EventRestController {
-    private final IEventServices eventServices;
 
-    @PostMapping("/addPart")
-    public Participant addParticipant(@RequestBody Participant participant){
-        return eventServices.addParticipant(participant);
+    @Autowired
+    private EventServices eventServices;
+
+    // Endpoint pour récupérer un événement par son ID
+    @GetMapping("/{id}")
+    public ResponseEntity<Event> getEventById(@PathVariable Long id) {
+        Event event = eventServices.findEventById(id);
+        return ResponseEntity.ok(event);
     }
 
-    // Changement de 'int idPart' à 'Long idPart'
-    @PostMapping("/addEvent/{id}")
-    public Event addEventPart(@RequestBody Event event, @PathVariable("id") Long idPart){  // idPart devient Long
-        return eventServices.addAffectEvenParticipant(event, idPart);
+    // Endpoint pour récupérer tous les événements
+    @GetMapping
+    public ResponseEntity<List<Event>> getAllEvents() {
+        List<Event> events = eventServices.getAllEvents();
+        return ResponseEntity.ok(events);
     }
 
-    @PostMapping("/addEvent")
-    public Event addEvent(@RequestBody Event event){
-        return eventServices.addAffectEvenParticipant(event);
+    // Endpoint pour créer un événement
+    @PostMapping
+    public ResponseEntity<Event> createEvent(@RequestBody Event event) {
+        Event createdEvent = eventServices.createEvent(event);
+        return ResponseEntity.status(201).body(createdEvent);
     }
 
-    @PutMapping("/addAffectLog/{description}")
-    public Logistics addAffectLog(@RequestBody Logistics logistics, @PathVariable("description") String descriptionEvent){
-        return eventServices.addAffectLog(logistics, descriptionEvent);
+    // Endpoint pour mettre à jour un événement
+    @PutMapping("/{id}")
+    public ResponseEntity<Event> updateEvent(@PathVariable Long id, @RequestBody Event updatedEvent) {
+        Event event = eventServices.updateEvent(id, updatedEvent);
+        return ResponseEntity.ok(event);
     }
 
-    @GetMapping("/getLogs/{d1}/{d2}")
-    public List<Logistics> getLogistiquesDates(@PathVariable("d1") LocalDate dateDebut, @PathVariable("d2") LocalDate dateFin){
-        return eventServices.getLogisticsDates(dateDebut, dateFin);
+    // Endpoint pour supprimer un événement
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteEvent(@PathVariable Long id) {
+        eventServices.deleteEvent(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    // Endpoint pour ajouter un participant à un événement
+    @PostMapping("/{eventId}/participants/{participantId}")
+    public ResponseEntity<Event> addParticipantToEvent(
+            @PathVariable Long eventId,
+            @PathVariable Long participantId
+    ) {
+        Event updatedEvent = eventServices.addParticipantToEvent(eventId, participantId);
+        return ResponseEntity.ok(updatedEvent);
     }
 }
