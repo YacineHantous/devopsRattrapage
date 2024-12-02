@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class EventServicesImpl implements EventServices {
+public class EventServicesImpl implements IEventServices { // Implémenter IEventServices
 
     @Autowired
     private EventRepository eventRepository;
@@ -30,21 +30,21 @@ public class EventServicesImpl implements EventServices {
     }
 
     // Méthode pour ajouter un participant à un événement
-    public Event addParticipantToEvent(Long eventId, Long participantId) {
-        Optional<Event> eventOpt = eventRepository.findById(eventId);
-        Optional<Participant> participantOpt = participantRepository.findById(participantId);
+    public Event addAffectEvenParticipant(Event event, Long idParticipant) { // Modifié
+        Optional<Event> eventOpt = eventRepository.findById(event.getIdEvent());
+        Optional<Participant> participantOpt = participantRepository.findById(idParticipant);
 
         if (eventOpt.isPresent() && participantOpt.isPresent()) {
-            Event event = eventOpt.get();
+            Event existingEvent = eventOpt.get();
             Participant participant = participantOpt.get();
 
-            event.getParticipants().add(participant);
-            participant.getEvents().add(event);
+            existingEvent.getParticipants().add(participant);
+            participant.getEvents().add(existingEvent);
 
-            eventRepository.save(event);
+            eventRepository.save(existingEvent);
             participantRepository.save(participant);
             
-            return event;
+            return existingEvent;
         } else {
             throw new ResourceNotFoundException("Event or Participant not found");
         }
@@ -85,5 +85,39 @@ public class EventServicesImpl implements EventServices {
         } else {
             throw new ResourceNotFoundException("Event with id " + id + " not found");
         }
+    }
+
+    // Autres méthodes de IEventServices
+    @Override
+    public Participant addParticipant(Participant participant) {
+        return participantRepository.save(participant);
+    }
+
+    @Override
+    public Event addAffectEvenParticipant(Event event) {
+        return addAffectEvenParticipant(event, event.getParticipants().iterator().next().getIdPart());
+    }
+
+    @Override
+    public Logistics addAffectLog(Logistics logistics, String descriptionEvent) {
+        // Implémentez ici la logique pour ajouter des logistiques à un événement
+        return null;
+    }
+
+    @Override
+    public List<Logistics> getLogisticsDates(LocalDate dateDebut, LocalDate dateFin) {
+        // Implémentez la logique pour récupérer des logistiques entre deux dates
+        return null;
+    }
+
+    @Override
+    public void calculCout() {
+        // Implémentez la logique pour calculer le coût des événements
+    }
+
+    @Override
+    public List<Logistics> getLogisticsByEventId(Long eventId) {
+        // Implémentez la logique pour récupérer les logistiques par événement
+        return null;
     }
 }
